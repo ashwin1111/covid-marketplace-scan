@@ -1,0 +1,33 @@
+<html>
+
+<head>
+    <title>Scanner</title>
+    <script>
+        console.log('script started');
+        fetch('http://localhost:5555/scanner/get_scanner_markets?on_date=2020-12-03').then(r => r.json().then(res => {
+            console.log(res.TimeSlots);
+            res.TimeSlots.forEach(element => {
+                document.getElementById("marketCollection").innerHTML += 'Market Name: ' + element.market_palce_name + "<br />";
+                document.getElementById("marketCollection").innerHTML += 'Market Address: ' + element.market_place_address + "<br />";
+            });
+        }));
+
+        function setId (id) {
+            console.log('received id', id);
+            // localStorage.setItem('market_id', id);
+            // store in cookie with expiry time
+            // redirect to scan page
+        }
+    </script>
+</head>
+
+<body>
+    Welcome doood
+<br>
+    <a onclick="return setId('mpadideam6ys')" id="marketCollection">
+
+    </a>
+
+</body>
+
+</html>
