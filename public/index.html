@@ -1,291 +1,67 @@
-<!DOCTYPE html>
-<html lang="en-US">
+<html>
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <title>QR scanner</title>
+    <title>Scanner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script>
+        function getCookie() {
+            let cookie = {};
+            document.cookie.split(';').forEach(function (el) {
+                let [k, v] = el.split('=');
+                cookie[k.trim()] = v;
+            })
+            return cookie['market_id'];
+        }
 
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        var presentCookie = getCookie();
+        if (typeof presentCookie !== 'undefined') {
+            window.location = '/cam.html';
+        } else {
+            var date = new Date();
+            var month = date.getMonth() + 1;
+            var monthString;
+            if (month < 10) {
+                monthString = '0' + month.toString();
+            } else {
+                monthString = month.toString();
+            }
+            var i = -1;
+            var collection;
+            var dateString = date.getFullYear().toString() + '-' + monthString + '-' + date.getDate().toString();
+            fetch('https://covid19-pollachi.herokuapp.com/scanner/get_scanner_markets?on_date=' + dateString).then(r => r.json().then(res => {
+                collection = res.TimeSlots;
+                res.TimeSlots.forEach(element => {
+                    i = i + 1;
+                    document.getElementById("add").innerHTML += '<div class="row p-3"><div class="col text-left"><div class="card border border-secondary"><input hidden type="text" value="' + element.market_place_id + '" name="name2" id="' + i + '"><h5 class="card-header" id="name" name="name">' + element.market_palce_name + '</h5><div class="card-body"><h5 class="card-title">' + element.market_place_address + '</h5><a  onclick="setcook(' + i.toString() + ')" class="btn btn-primary">Scan now</a></div></div></div></div>';
+                });
+            }));
+
+            function setcook(cookie) {
+                document.cookie = "market_id" + "=" + collection[cookie].market_place_id + ";" + "expires=" + new Date(new Date().getTime() + 60 * 60 * 1000 * 12).toGMTString() + ";path=/";
+                window.location = '/cam.html'
+            }
+        }
+        console.log('presentCookie', presentCookie);
+    </script>
 </head>
 
-
-
 <body>
-
-  <div class="bg-light border-bottom shadow-sm sticky-top">
-    <div class="container">
-      <header class="blog-header py-1"></header>
-    </div>
-    <!--/.container-->
-  </div>
-
-  <div class="container-fluid">
-    <div class="row">
-
-
-
-
-      <div class="col">
-        <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-
+    <div class="container p-5 text-center">
         <div class="col">
-
-          <img class="res"
-            src="https://cdn.glitch.com/a121cb9d-1bed-4d28-9a4f-a26b884bfcfe%2Fscanner-icon.png?v=1586932397226" style="position:fixed;z-index:90; -webkit-filter: invert(1);
-   filter: invert(1);" width="200px">
-          <video id="preview" class=" border" style="width:100%;height:100%"></video>
+            <h2 id="add">The Scanner Application</h2>
         </div>
-        <script type="text/javascript">
-
-          var scanner = new Instascan.Scanner({
-            video: document.getElementById("preview"),
-            scanPeriod: 5,
-            mirror: false
-          });
-          scanner.addListener("scan", function (content) {
-            // 
-            document.getElementById("p1").innerHTML = content;
-            document.getElementById("mods").click();
-            document.getElementById("btn").click();
-
-            //alert(content);
-            // check QR contents with present date, market id
-            // if it passes all cases, call api
-            // fetch('http://localhost:5555/scanner/market_entry_exit', {
-            //   method: 'POST',
-            //   headers: {
-            //     'Accept': 'application/json, text/plain, */*',
-            //     'Content-Type': 'application/json'
-            //   },
-            //   body: JSON.stringify({
-            //     booking_id: 'bidlf0u3n'
-            //   })
-            // }).then(r => r.json().then(res => {
-            //   console.log('posted data res', res);
-            // })).catch(err => {
-            //   console.log(err);
-            // })
-          });
-          Instascan.Camera.getCameras()
-            .then(function (cameras) {
-              if (cameras.length > 0) {
-                scanner.start(cameras[1]);
-                $('[name="options"]').on("change", function () {
-                  if ($(this).val() == 1) {
-                    if (cameras[0] != "") {
-                      scanner.start(cameras[0]);
-                    } else {
-                      alert("No Front camera found!");
-                    }
-                  } else if ($(this).val() == 2) {
-                    if (cameras[1] != "") {
-                      scanner.start(cameras[1]);
-                    } else {
-                      alert("No Back camera found!");
-                    }
-                  }
-                });
-              } else {
-                console.error("No cameras found.");
-                alert("No cameras found.");
-              }
-            })
-            .catch(function (e) {
-              console.error(e);
-              // alert(e);
-            });
-
-
-          window.onload = function (e) {
-
-
-            console.log("clicked");
-          }
-
-
-
-        </script>
-        <div><button id="btn" style="display:none" class="vibrate-button">Manual Vibrate</button></div>
-
-
-
-
-        <script>
-
-
-          $('.vibrate-button').click(function () {
-            navigator.vibrate(400);
-          });
-
-        </script>
-
-
-        <!-- Button trigger modal -->
-        <button style="display:none" type="button" id="mods" class="btn btn-primary" data-toggle="modal"
-          data-target="#exampleModal">
-          Launch demo modal
-        </button>
-
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-          aria-hidden="true">
-          <div class="modal-dialog" style="top:150px" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><img width="30px"
-                    src="https://images.vexels.com/media/users/3/157893/isolated/preview/d6f4e679138673eb3223362c70ecf7ce-check-mark-tick-icon-by-vexels.png">Success!
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div id="p1" class="modal-body">
-                ...
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Approve</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
-
-      </div>
     </div>
-  </div>
-
-
-
-
-  <style>
-    /* Smartphones (portrait and landscape) ----------- */
-    @media only screen and (min-width : 320px) and (max-width : 480px) {
-      .res {
-        top: 25%;
-        left: 33%;
-      }
-
-      /* Styles */
-    }
-
-    /* Smartphones (landscape) ----------- */
-    @media only screen and (min-width : 321px) {
-      .res {
-        top: 22%;
-        left: 36%;
-      }
-
-      /* Styles */
-    }
-
-    /* Smartphones (portrait) ----------- */
-    @media only screen and (max-width : 320px) {
-
-      /* Styles */
-      .res {
-        top: 25%;
-        left: 36%;
-      }
-    }
-
-    /* iPads (portrait and landscape) ----------- */
-    @media only screen and (min-width : 768px) and (max-width : 1024px) {
-      .res {
-        top: 45%;
-        left: 45%;
-        bottom: 45%;
-        right: 45%;
-      }
-
-      /* Styles */
-    }
-
-    /* iPads (landscape) ----------- */
-    @media only screen and (min-width : 768px) and (max-width : 1024px) and (orientation : landscape) {
-      .res {
-        top: 40%;
-        left: 40%;
-        bottom: 45%;
-        right: 45%;
-      }
-
-      /* Styles */
-    }
-
-    /* iPads (portrait) ----------- */
-    @media only screen and (min-width : 768px) and (max-width : 1024px) and (orientation : portrait) {
-      .res {
-        top: 35% !important;
-        left: 38% !important;
-        bottom: 45%;
-        right: 45%;
-      }
-
-      /* Styles */
-    }
-
-    /* Desktops and laptops ----------- */
-    @media only screen and (min-width : 1224px) {
-      .res {
-        top: 45%;
-        left: 45%;
-        bottom: 45%;
-        right: 45%;
-      }
-
-      /* Styles */
-    }
-
-    /* Large screens ----------- */
-    @media only screen and (min-width : 1824px) {
-      .res {
-        top: 45%;
-        left: 45%;
-        bottom: 45%;
-        right: 45%;
-      }
-
-      /* Styles */
-    }
-
-    /* iPhone 4 ----------- */
-    @media only screen and (-webkit-min-device-pixel-ratio : 1.5),
-    only screen and (min-device-pixel-ratio : 1.5) {
-      .res {
-        top: 25%;
-        left: 23%;
-      }
-
-      /* Styles */
-    }
-  </style>
-
-
-
-
-
-
-
-
-
-
-
 </body>
 
 </html>
