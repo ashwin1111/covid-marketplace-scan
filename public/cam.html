@@ -25,16 +25,13 @@
         let [k, v] = el.split('=');
         cookie[k.trim()] = v;
       })
+
       return cookie[name];
     }
 
     var presentCookie = getCookie('market_id');
     if (typeof presentCookie === 'undefined') {
       window.location = '/index.html';
-    } else {
-      alert(getCookie('count'));
-      alert(getCookie('upd_time'));
-      document.getElementById("count").innerHTML = getCookie('count');
     }
   </script>
 </head>
@@ -49,9 +46,12 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col">
-        <script src="assets/instascan.min.js"></script>
+<!--         <script src="assets/instascan.min.js"></script> -->
+        <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
         <div class="col text-center ">
-          <h5 class="m-2">Total Count (Live) -<input type="text" style="width: 17%;border: 0ch;" name="count" id="count" value="200"></h5>
+          <h5 class="m-2">Total Count (Live) - <input type="text" style="width: 17%;border: 0ch;" name="count" id="count" readonly></h5>
+          <h7 class="m-2">Last updated at - <input type="text" style="width: 75%;border: 0ch;" name="updated_at" id="updated_at" readonly></h7>
+          <br>
           <img class="res"
             src="assets/scanner-icon.png" style="position:fixed;z-index:90; -webkit-filter: invert(1);
    filter: invert(1);" width="200px">
@@ -104,7 +104,7 @@ var dateTime = date_p+' '+time;
 
             
             // check QR contents with present date, market id
-            if (content.market_palce_id === getCookie() && content.on_date === dateString) {
+            if (content.market_palce_id === getCookie('market_id') && content.on_date === dateString) {
               // promt for a dialog asking in / out and fill api body do_it obj (in/out)
 
              
@@ -125,19 +125,18 @@ var dateTime = date_p+' '+time;
                 })
               }).then(r => r.json().then(res => {
                 console.log('posted data res', res);
-                if (res.market_customer_count && res.msg === 'Customer Entry confirmed') {
+                if (res.market_customer_count && (res.msg === 'Customer Entry confirmed' || res.msg === 'Customer Exit confirmed')) {
                   // daddy, have to show this in html
                   presentCountInsideTheShop = res.market_customer_count;
-                  document.cookie = "count" + "=" + presentCountInsideTheShop + ";" +"upd_time" + "=" + dateTime + ";"
-                   + "expires=" + new Date(new Date().getTime() + 60 * 60 * 1000 * 12).toGMTString() + ";path=/";
-                  alert('aiiyyaaa');
+                  document.cookie = "count" + "=" + presentCountInsideTheShop + ";" + "expires=" + new Date(new Date().getTime() + 60 * 60 * 1000 * 8).toGMTString() + ";path=/";
+                  document.cookie = "updated_at" + "=" + dateTime + ";" + "expires=" + new Date(new Date().getTime() + 60 * 60 * 1000 * 8).toGMTString() + ";path=/";
+                  
                   // refresh the page, so that count updates on view
                   window.location = '/cam.html';
                 }
                 alert(JSON.stringify(res));
               })).catch(err => {
                 console.log(err);
-                alert(err);
               })
             } else {
               alert('date / market mismatch');
@@ -324,5 +323,18 @@ var dateTime = date_p+' '+time;
     }
   </style>
 </body>
+<script>
+      function getCookie(name) {
+      let cookie = {};
+      document.cookie.split(';').forEach(function (el) {
+        let [k, v] = el.split('=');
+        cookie[k.trim()] = v;
+      })
 
+      return cookie[name];
+    }
+
+  document.getElementById("count").value = getCookie("count") || '0';
+  document.getElementById("updated_at").value = getCookie("updated_at") || new Date();
+</script>
 </html>

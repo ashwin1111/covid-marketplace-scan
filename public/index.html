@@ -51,7 +51,7 @@
             }));
 
             function setcook(cookie) {
-                document.cookie = "market_id" + "=" + collection[cookie].market_place_id + ";" + "expires=" + new Date(new Date().getTime() + 60 * 60 * 1000 * 12).toGMTString() + ";path=/";
+                document.cookie = "market_id" + "=" + collection[cookie].market_place_id + ";" + "expires=" + new Date(new Date().getTime() + 60 * 60 * 1000 * 8).toGMTString() + ";path=/";
                 window.location = '/cam.html'
             }
         }
