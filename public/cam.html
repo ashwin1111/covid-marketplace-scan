@@ -49,13 +49,13 @@
 <!--         <script src="assets/instascan.min.js"></script> -->
         <script src="assets/instascan.min.js"></script>
         <div class="col text-center">
-          <h5 class="m-2">Total Count (Live) - <input type="text" style="width: 50px;border: 1px;" name="count" id="count" readonly></h5>
-          <h7  class="m-2  text-left">(Last updated at)<br> <input type="text" class="pl-5 ml-2" style="width: fit-content;;border: 0ch;" name="updated_at" id="updated_at" readonly></h7>
+          <h5 class="m-2">Total Count (Live): <div id="cnt"></div></h5>
+          <h7  class="m-2  text-center">(Last updated at)<br><div id="upd_d"></div></h7>
           <br>
           <img class="res"
             src="assets/scanner-icon.png" style="position:fixed;z-index:90; -webkit-filter: invert(1);
    filter: invert(1);" width="200px">
-          <video id="preview" class=" border" style="width:100%;height:100%"></video>
+          <video id="preview" class=" border" style="width:100%;height:95%"></video>
         </div>
         <script type="text/javascript">
         var contents;
@@ -236,7 +236,7 @@ var dateTime = date_p+' '+time;
    <div class="modal-content">
      <div class="modal-header">
        <h5 class="modal-title" id="exampleModalLabel"><img width="30px"
-           src="assets/note.png.png"> Please note
+           src="assets/note.png"> Please note
        </h5>
        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
          <span aria-hidden="true">&times;</span>
@@ -270,8 +270,8 @@ var dateTime = date_p+' '+time;
     /* Smartphones (portrait and landscape) ----------- */
     @media only screen and (min-width : 320px) and (max-width : 480px) {
       .res {
-        top: 25%;
-        left: 33%;
+        top: 40%;
+        left: 34%;
       }
 
       /* Styles */
@@ -280,8 +280,8 @@ var dateTime = date_p+' '+time;
     /* Smartphones (landscape) ----------- */
     @media only screen and (min-width : 321px) {
       .res {
-        top: 22%;
-        left: 36%;
+        top: 39%;
+        left: 34%;
       }
 
       /* Styles */
@@ -292,8 +292,8 @@ var dateTime = date_p+' '+time;
 
       /* Styles */
       .res {
-        top: 25%;
-        left: 36%;
+        top: 40%;
+        left: 38%;
       }
     }
 
@@ -361,8 +361,8 @@ var dateTime = date_p+' '+time;
     @media only screen and (-webkit-min-device-pixel-ratio : 1.5),
     only screen and (min-device-pixel-ratio : 1.5) {
       .res {
-        top: 25%;
-        left: 23%;
+        top: 40%;
+        left: 27%;
       }
 
       /* Styles */
@@ -380,7 +380,8 @@ var dateTime = date_p+' '+time;
       return cookie[name];
     }
 
-  document.getElementById("count").value = getCookie("count") || '0';
-  document.getElementById("updated_at").value = getCookie("updated_at") || dateTime;
+ 
+  document.getElementById("cnt").innerHTML = getCookie("count") || '0';
+  document.getElementById("upd_d").innerHTML = getCookie("updated_at") || dateTime;
 </script>
 </html>
