@@ -3,6 +3,7 @@
 <head>
     <title>Scanner</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -43,8 +44,10 @@
                 collection = res.TimeSlots;
                 res.TimeSlots.forEach(element => {
                     i = i + 1;
-                    document.getElementById("add").innerHTML += '<div class="row p-3"><div class="col text-left"><div class="card border border-secondary"><input hidden type="text" value="' + element.market_place_id + '" name="name2" id="' + i + '"><h5 class="card-header" id="name" name="name">' + element.market_palce_name + '</h5><div class="card-body"><h5 class="card-title">' + element.market_place_address + '</h5><a  onclick="setcook(' + i.toString() + ')" class="btn btn-primary">Scan now</a></div></div></div></div>';
+                    document.getElementById("add").innerHTML += '<div class="row p-3"><div class="col text-left"><div class="card border border-secondary"><input hidden type="text" value="' + element.market_place_id + '" name="name2" id="' + i + '"><h5 class="card-header" id="name" name="name">' + element.market_palce_name + '</h5><div class="card-body"><h5 class="card-title">' + element.market_place_address + '</h5><a  onclick="setcook(' + i.toString() + ')" class="btn btn-secondary" style="color:white!important">Scan now</a></div></div></div></div>';
+                
                 });
+                document.getElementById('spinner').style.visibility = "hidden";
             }));
 
             function setcook(cookie) {
@@ -56,10 +59,19 @@
     </script>
 </head>
 
-<body>
-    <div class="container p-5 text-center">
-        <div class="col">
-            <h2 id="add">The Scanner Application</h2>
+<body style="background-color: rgb(233, 233, 233);font-family: 'Manrope', sans-serif;text-align: center;" >
+    <div class="container p-1 " >
+        <div class="col mr-3 text-center border border-secondary">
+            <img class="m-2" src="assets/1200px-TamilNadu_Logo.svg.png" width="60px">
+                <h4 class="p-3"> Marketplace Scanner</h4>
+            <div id="add"></div>
+
+            <div class="text-center  p-5 m-5" id="spinner">
+                <div class="spinner-border" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+
         </div>
     </div>
 </body>
