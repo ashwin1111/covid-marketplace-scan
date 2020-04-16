@@ -1,79 +1,81 @@
 <html>
 
 <head>
-    <title>Scanner</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope&display=swap" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-    <script>
-        function getCookie() {
-            let cookie = {};
-            document.cookie.split(';').forEach(function (el) {
-                let [k, v] = el.split('=');
-                cookie[k.trim()] = v;
-            })
-            return cookie['market_id'];
-        }
+  <title>Covid-19 QR Scanner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <link rel="icon" type="image/x-icon" href="assets/market.png"> -->
+  <link rel="shortcut icon" type="image/png" href="assets/market.png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script>
+    function getCookie() {
+      let cookie = {};
+      document.cookie.split(';').forEach(function (el) {
+        let [k, v] = el.split('=');
+        cookie[k.trim()] = v;
+      })
+      return cookie['market_id'];
+    }
 
-        var presentCookie = getCookie();
-        if (typeof presentCookie !== 'undefined') {
-            window.location = '/cam.html';
-        } else {
-            var date = new Date();
-            var month = date.getMonth() + 1;
-            var monthString;
-            if (month < 10) {
-                monthString = '0' + month.toString();
-            } else {
-                monthString = month.toString();
-            }
-            var i = -1;
-            var collection;
-            var dateString = date.getFullYear().toString() + '-' + monthString + '-' + date.getDate().toString();
-            fetch('https://covid19-pollachi.herokuapp.com/scanner/get_scanner_markets?on_date=' + dateString).then(r => r.json().then(res => {
-                collection = res.TimeSlots;
-                res.TimeSlots.forEach(element => {
-                    i = i + 1;
-                    document.getElementById("add").innerHTML += '<div class="row p-3"><div class="col text-left"><div class="card border border-secondary"><input hidden type="text" value="' + element.market_place_id + '" name="name2" id="' + i + '"><h5 class="card-header" id="name" name="name">' + element.market_palce_name + '</h5><div class="card-body"><h5 class="card-title">' + element.market_place_address + '</h5><a  onclick="setcook(' + i.toString() + ')" class="btn btn-secondary" style="color:white!important">Scan now</a></div></div></div></div>';
-                
-                });
-                document.getElementById('spinner').style.visibility = "hidden";
-            }));
+    var presentCookie = getCookie();
+    if (typeof presentCookie !== 'undefined') {
+      window.location = '/cam.html';
+    } else {
+      var date = new Date();
+      var month = date.getMonth() + 1;
+      var monthString;
+      if (month < 10) {
+        monthString = '0' + month.toString();
+      } else {
+        monthString = month.toString();
+      }
+      var i = -1;
+      var collection;
+      var dateString = date.getFullYear().toString() + '-' + monthString + '-' + date.getDate().toString();
+      fetch('https://covid19-pollachi.herokuapp.com/scanner/get_scanner_markets?on_date=' + dateString).then(r => r.json().then(res => {
+        collection = res.TimeSlots;
+        res.TimeSlots.forEach(element => {
+          i = i + 1;
+          document.getElementById("add").innerHTML += '<div class="row p-3"><div class="col text-left"><div class="card border border-secondary"><input hidden type="text" value="' + element.market_place_id + '" name="name2" id="' + i + '"><h5 class="card-header" id="name" name="name">' + element.market_palce_name + '</h5><div class="card-body"><h5 class="card-title">' + element.market_place_address + '</h5><a  onclick="setcook(' + i.toString() + ')" class="btn btn-secondary" style="color:white!important">Scan now</a></div></div></div></div>';
 
-            function setcook(cookie) {
-                document.cookie = "market_id" + "=" + collection[cookie].market_place_id + ";" + "expires=" + new Date(new Date().getTime() + 60 * 60 * 1000 * 8).toGMTString() + ";path=/";
-                window.location = '/cam.html'
-            }
-        }
-        console.log('presentCookie', presentCookie);
-    </script>
+        });
+        document.getElementById('spinner').style.visibility = "hidden";
+      }));
+
+      function setcook(cookie) {
+        document.cookie = "market_id" + "=" + collection[cookie].market_place_id + ";" + "expires=" + new Date(new Date().getTime() + 60 * 60 * 1000 * 8).toGMTString() + ";path=/";
+        window.location = '/cam.html'
+      }
+    }
+    console.log('presentCookie', presentCookie);
+  </script>
 </head>
 
-<body style="background-color: rgb(233, 233, 233);font-family: 'Manrope', sans-serif;text-align: center;" >
-    <div class="container p-1 " >
-        <div class="col mr-3 text-center border border-secondary">
-            <img class="m-2" src="assets/1200px-TamilNadu_Logo.svg.png" width="60px">
-                <h4 class="p-3"> Marketplace Scanner</h4>
-            <div id="add"></div>
+<body style="background-color: rgb(233, 233, 233);font-family: 'Manrope', sans-serif;text-align: center;">
+  <div class="container p-1 ">
+    <div class="col mr-3 text-center border border-secondary">
+      <img class="m-2" src="assets/1200px-TamilNadu_Logo.svg.png" width="60px">
+      <h4 class="p-3"> Marketplace Scanner</h4>
+      <div id="add"></div>
 
-            <div class="text-center  p-5 m-5" id="spinner">
-                <div class="spinner-border" role="status">
-                  <span class="sr-only">Loading...</span>
-                </div>
-              </div>
-
+      <div class="text-center  p-5 m-5" id="spinner">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
         </div>
+      </div>
+
     </div>
+  </div>
 </body>
 
 </html>
