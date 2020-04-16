@@ -91,7 +91,7 @@ console.log(dateTime);
             }
 
             function clrcookie() {
-             
+              document.cookie = "market_id" + "=" + null + ";" + "expires=" + new Date(new Date().getTime() + 1).toGMTString() + ";path=/";
               document.cookie = "count" + "=" + 0 + ";" + "expires=" + new Date(new Date().getTime() + 60 * 60 * 1000 * 8).toGMTString() + ";path=/";
               document.cookie = "updated_at" + "=" + dateTime + ";" + "expires=" + new Date(new Date().getTime() + 60 * 60 * 1000 * 8).toGMTString() + ";path=/";
               window.location = '/index.html';
