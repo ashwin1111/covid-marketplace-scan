@@ -31,7 +31,7 @@
 
     var presentCookie = getCookie('market_id');
     if (typeof presentCookie === 'undefined') {
-      window.location = '/index.html';
+    //  window.location = '/index.html';
     }
   </script>
 </head>
@@ -48,9 +48,9 @@
       <div class="col">
 <!--         <script src="assets/instascan.min.js"></script> -->
         <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-        <div class="col text-center ">
-          <h5 class="m-2">Total Count (Live) - <input type="text" style="width: 17%;border: 0ch;" name="count" id="count" readonly></h5>
-          <h7 class="m-2">Last updated at - <input type="text" style="width: 75%;border: 0ch;" name="updated_at" id="updated_at" readonly></h7>
+        <div class="col text-center">
+          <h5 class="m-2">Total Count (Live) - <input type="text" style="width: 50px;border: 1px;" name="count" id="count" readonly></h5>
+          <h7  class="m-2  text-left">(Last updated at)<br> <input type="text" class="pl-5 ml-2" style="width: fit-content;;border: 0ch;" name="updated_at" id="updated_at" readonly></h7>
           <br>
           <img class="res"
             src="assets/scanner-icon.png" style="position:fixed;z-index:90; -webkit-filter: invert(1);
@@ -73,6 +73,12 @@
 
            
           }); 
+          var today = new Date();
+var date_p = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+var dateTime = date_p+' '+time;
+console.log(dateTime);
+
           function getCookie() {
               let cookie = {};
               document.cookie.split(';').forEach(function (el) {
@@ -80,6 +86,13 @@
                 cookie[k.trim()] = v;
               })
               return cookie['market_id'];
+            }
+
+            function clrcookie() {
+             
+              document.cookie = "count" + "=" + 0 + ";" + "expires=" + new Date(new Date().getTime() + 60 * 60 * 1000 * 8).toGMTString() + ";path=/";
+              document.cookie = "updated_at" + "=" + dateTime + ";" + "expires=" + new Date(new Date().getTime() + 60 * 60 * 1000 * 8).toGMTString() + ";path=/";
+              window.location = '/index.html';
             }
 
             function doit(status){
@@ -212,9 +225,40 @@ var dateTime = date_p+' '+time;
           </div>
         </div>
 
+ <!-- Button trigger modal -->
  
+<!-- Modal -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+ aria-hidden="true">
+ <div class="modal-dialog" style="top:150px" role="document">
+   <div class="modal-content">
+     <div class="modal-header">
+       <h5 class="modal-title" id="exampleModalLabel"><img width="30px"
+           src="https://images-na.ssl-images-amazon.com/images/I/31YiweCLB5L.png"> Please note
+       </h5>
+       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div>
+     <div id="p2" class="modal-body" style="">
+       You will be redirected to the list of Market places page, and can select your preferred market place.
+       
+     </div>
+     <div class="modal-footer">
+       <div class="text-left">
+       <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button></div>
+       <button type="button" onclick="clrcookie()" class="btn btn-primary">Proceed</button>
+       
+     </div>
+   </div>
+ </div>
+</div>
 
-
+<button style="position:fixed;bottom:8px;right:5px"  type="button" id="mods" class="btn btn-info" data-toggle="modal"
+ data-target="#exampleModal2">
+ Change Market place
+</button>
+        <!-- <button type="button"  onclick="clrcache()" class="btn btn-info">Clear Cache</button> -->
 
 
       </div>
@@ -335,6 +379,6 @@ var dateTime = date_p+' '+time;
     }
 
   document.getElementById("count").value = getCookie("count") || '0';
-  document.getElementById("updated_at").value = getCookie("updated_at") || new Date();
+  document.getElementById("updated_at").value = getCookie("updated_at") || dateTime;
 </script>
 </html>
