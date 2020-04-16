@@ -58,6 +58,31 @@
       }
     }
     console.log('presentCookie', presentCookie);
+    function filter (){
+      var inputKey = document.getElementById('filter').value;
+    console.log('entered key is', inputKey);
+    var cardContainer = document.getElementById("add");
+    var arr = add.getElementsByClassName('row p-3');
+    var word;
+    for (let i=0;i <arr.length;i++) {
+      // card-header
+      // console.log(i, arr[i]);
+      word = arr[i].getElementsByClassName('card-header')[0].innerText;
+      if(word.toLowerCase().indexOf(inputKey.toLowerCase()) > -1) {
+        arr[i].getElementsByClassName('card-header')[0].style.display = "";
+        arr[i].getElementsByClassName('card-body')[0].style.display = "";
+        arr[i].getElementsByClassName('card border border-secondary')[0].style.display = "";
+      } else {
+        arr[i].getElementsByClassName('card-header')[0].style.display = "none";
+        arr[i].getElementsByClassName('card-body')[0].style.display = "none";
+        arr[i].getElementsByClassName('card border border-secondary')[0].style.display = "none";
+        
+      }
+    }
+
+    // console.log('add', add.getElementsByClassName('col text-left'));
+  }
+
   </script>
 </head>
 
@@ -66,6 +91,7 @@
     <div class="col mr-3 text-center border border-secondary">
       <img class="m-2" src="assets/1200px-TamilNadu_Logo.svg.png" width="60px">
       <h4 class="p-3"> Marketplace Scanner</h4>
+      <input type="text" id="filter" name="filter" onkeyup="filter()">
       <div id="add"></div>
 
       <div class="text-center  p-5 m-5" id="spinner">
