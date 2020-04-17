@@ -46,7 +46,7 @@
         collection = res.TimeSlots;
         res.TimeSlots.forEach(element => {
           i = i + 1;
-          document.getElementById("add").innerHTML += '<div class="row p-3"><div class="col text-left"><div class="card border border-secondary"><input hidden type="text" value="' + element.market_place_id + '" name="name2" id="' + i + '"><h5 class="card-header" id="name" name="name">' + element.market_palce_name + '</h5><div class="card-body"><h5 class="card-title">' + element.market_place_address + '</h5><a  onclick="setcook(' + i.toString() + ')" class="btn btn-secondary" style="color:white!important">Scan now</a></div></div></div></div>';
+          document.getElementById("add").innerHTML += '<div class="row p-3" id="myrow"><div class="col text-left"><div class="card border border-secondary"><input hidden type="text" value="' + element.market_place_id + '" name="name2" id="' + i + '"><h5 class="card-header" id="name" name="name">' + element.market_palce_name + '</h5><div class="card-body"><h5 class="card-title">' + element.market_place_address + '</h5><a  onclick="setcook(' + i.toString() + ')" class="btn btn-secondary" style="color:white!important">Scan now</a></div></div></div></div>';
 
         });
         document.getElementById('spinner').style.visibility = "hidden";
@@ -58,6 +58,29 @@
       }
     }
     console.log('presentCookie', presentCookie);
+    function filter (){
+      var inputKey = document.getElementById('filter').value;
+    console.log('entered key is', inputKey);
+    var cardContainer = document.getElementById("add");
+    var arr = add.getElementsByClassName('row p-3');
+    var word;
+    for (let i=0;i <arr.length;i++) {
+      // card-header
+      // console.log(i, arr[i]);
+      word = arr[i].getElementsByClassName('card-header')[0].innerText;
+      if(word.toLowerCase().indexOf(inputKey.toLowerCase()) > -1) {
+       
+        arr[i].style.display = "";
+      } else {
+        arr[i].style.display = "none";
+        
+        
+      }
+    }
+
+    // console.log('add', add.getElementsByClassName('col text-left'));
+  }
+
   </script>
 </head>
 
@@ -66,7 +89,11 @@
     <div class="col mr-3 text-center border border-secondary">
       <img class="m-2" src="assets/1200px-TamilNadu_Logo.svg.png" width="60px">
       <h4 class="p-3"> Marketplace Scanner</h4>
-      <div id="add"></div>
+      <input type="text" class="form-control w-3" style="width: fit-content;display: unset;" id="filter" placeholder="Search market place"name="filter" onkeyup="filter()">
+      <div class="text-right">
+      <button type="button" onclick="function a(){window.open('https://analytics.covid19pollachi.xyz/')}; a()"  class="btn btn-info m-3">Live<sup></sup> Statistics <img width="20px" src="https://img.icons8.com/cotton/2x/mail-statistics.png" >
+       </button>
+    </div><div id="add"></div>
 
       <div class="text-center  p-5 m-5" id="spinner">
         <div class="spinner-border" role="status">
