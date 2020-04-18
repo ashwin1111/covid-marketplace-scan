@@ -149,12 +149,16 @@ var dateTime = date_p+' '+time;
                   // refresh the page, so that count updates on view
                   window.location = '/cam.html';
                 }
-                alert(JSON.stringify(res));
+                alert(res.msg);
               })).catch(err => {
                 console.log(err);
               })
+            } else if (content.market_palce_id !== getCookie('market_id') && content.on_date === dateString) {
+              alert('The customer has not booked your shop. Please instruct them to go the correct shop.')
+            } else if (content.market_palce_id === getCookie('market_id') && content.on_date !== dateString) {
+              alert('The customer has booked for some other day.Please ask them to visit on the correct date.')
             } else {
-              alert('date / market mismatch');
+              alert('Date and Market name is not correct. Please check the shop and the date that customer have opted!');
             }
           }
         
