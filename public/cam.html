@@ -149,12 +149,24 @@ var dateTime = date_p+' '+time;
                   // refresh the page, so that count updates on view
                   window.location = '/cam.html';
                 }
-                alert(JSON.stringify(res));
+                alert(res.msg);
               })).catch(err => {
                 console.log(err);
               })
-            } else {
-              alert('date / market mismatch');
+            } 
+            else if(content.market_palce_id !== getCookie('market_id') && content.on_date === dateString){
+              alert('This is not the shop you have opted. Please check the shop you opted for purchase!')
+
+
+            }
+            else if(content.market_palce_id === getCookie('market_id') && content.on_date !== dateString){
+              alert('This is not the shop you have opted for. Please check the date you opted for purchase!')
+
+
+            }
+
+            else {
+              alert('Date and Market name is mismatched. Please check the shop and the date you have opted!');
             }
           }
         
