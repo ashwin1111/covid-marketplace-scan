@@ -153,20 +153,12 @@ var dateTime = date_p+' '+time;
               })).catch(err => {
                 console.log(err);
               })
-            } 
-            else if(content.market_palce_id !== getCookie('market_id') && content.on_date === dateString){
-              alert('This is not the shop you have opted. Please check the shop you opted for purchase!')
-
-
-            }
-            else if(content.market_palce_id === getCookie('market_id') && content.on_date !== dateString){
-              alert('This is not the shop you have opted for. Please check the date you opted for purchase!')
-
-
-            }
-
-            else {
-              alert('Date and Market name is mismatched. Please check the shop and the date you have opted!');
+            } else if (content.market_palce_id !== getCookie('market_id') && content.on_date === dateString) {
+              alert('The customer has not booked your shop. Please instruct them to go the correct shop.')
+            } else if (content.market_palce_id === getCookie('market_id') && content.on_date !== dateString) {
+              alert('The customer has booked for some other day.Please ask them to visit on the correct date.')
+            } else {
+              alert('Date and Market name is not correct. Please check the shop and the date that customer have opted!');
             }
           }
         
