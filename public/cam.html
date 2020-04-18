@@ -67,7 +67,7 @@
           scanner.addListener("scan", function (content) {
             var obj = JSON.parse(content);
             console.log(obj.aadhar);
-            document.getElementById("p1").innerHTML = '<h7><b>Booking ID : </b>'+obj.booking_id+'</h7><br><h7><b>Customer ID : </b>'+obj.customer_id+'</h7><br><h7> <b>Aadhar ID : </b>'+obj.aadhar+'</h7><br><h7><b> Time Slot : </b>'+obj.time_slot+'</h7><br><h7><b> On Date : </b>'+obj.on_date+'</h7>';
+            document.getElementById("p1").innerHTML = '<h7><b>Booking ID : </b>'+obj.booking_id+'</h7><br><h7><b>Name : </b>'+obj.name+'</h7><br><h7> <b>Aadhar ID : </b>'+obj.aadhar+'</h7><br><h7><b> Time Slot : </b>'+obj.time_slot+'</h7><br><h7><b> On Date : </b>'+obj.on_date+'</h7>';
             document.getElementById("mods").click();
             document.getElementById("btn").click();
             console.log(content);
