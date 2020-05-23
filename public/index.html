@@ -42,7 +42,7 @@
       var i = -1;
       var collection;
       var dateString = date.getFullYear().toString() + '-' + monthString + '-' + date.getDate().toString();
-      fetch('https://covid19-pollachi.herokuapp.com/scanner/get_scanner_markets?on_date=' + dateString).then(r => r.json().then(res => {
+      fetch('https://covid19-marketplace.herokuapp.com/scanner/get_scanner_markets?on_date=' + dateString).then(r => r.json().then(res => {
         collection = res.TimeSlots;
         res.TimeSlots.forEach(element => {
           i = i + 1;
@@ -91,7 +91,7 @@
       <h4 class="p-3"> Marketplace Scanner</h4>
       <input type="text" class="form-control w-3" style="width: fit-content;display: unset;" id="filter" placeholder="Search market place"name="filter" onkeyup="filter()">
       <div class="text-right">
-      <button type="button" onclick="function a(){window.open('https://analytics.covid19pollachi.xyz/')}; a()"  class="btn btn-info m-3">Live<sup></sup> Statistics <img width="20px" src="https://img.icons8.com/cotton/2x/mail-statistics.png" >
+      <button type="button" onclick="function a(){window.open('https://marketplace-dashboard.web.app/')}; a()"  class="btn btn-info m-3">Live<sup></sup> Statistics <img width="20px" src="https://img.icons8.com/cotton/2x/mail-statistics.png" >
        </button>
     </div><div id="add"></div>
 
